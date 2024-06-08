@@ -1,0 +1,19 @@
+{%  include 'background.html' %}
+
+{% if question_and_answers|length == 0 %}
+    <br><br>
+    It seems the questions haven't been added yet or you didn't attend the workshop
+{%  else %}
+    Feedback Form for Workshop {{ questions.0.workshop }}
+
+    Questions:<br>
+    <form method="post" action="/feedback_form/answers">
+        {% csrf_token %}
+        {% for question_and_answer in question_and_answers %}
+            {{ question_and_answer.question }}<br>
+            <textarea name="[answers][{{question_and_answer.question_id}}]">{{question_and_answer.answer}}</textarea><br>
+        {%  endfor %}
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+{%  endif %}

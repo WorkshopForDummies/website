@@ -1,0 +1,23 @@
+{%  include 'background.html' %}
+
+
+<br><br>
+{%  for workshop in workshops %}
+    <a href="/feedback_form/{{ workshop.id }}">{{ workshop }}</a><br>
+    {%  if workshop.has_feedback_form %}
+        {%  for question_obj in workshop.feedbackquestion_set.all %}
+            <form method="post" action="/feedback_forms/questions/{{ question_obj.id }}">
+                {% csrf_token %}
+                <input type="text" name="question" value="{{ question_obj.question }}" required>
+                <input type="submit" name="action" value="Update">
+                <input type="submit" name="action" value="Delete">
+            </form>
+        {%  endfor %}
+    {%  endif %}
+    New question:
+    <form method="post" action="/feedback_forms/{{ workshop.id }}/question">
+    {%  csrf_token %}
+    <input type="text" name="question" required>
+    <input type="submit" name="action" value="Create">
+    </form>
+{%  endfor %}

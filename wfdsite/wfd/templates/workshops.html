@@ -1,0 +1,26 @@
+{%  include 'background.html' %}
+
+{%  if sfuid == 'jsaadatm' %}
+    <form method="post">
+    {% csrf_token %}
+        Create Workshop<br><br>
+        Type: <select name="type">
+        {% for workshop_type in workshop_types %}
+            <option value="{{workshop_type}}">{{workshop_type}}</option>
+        {% endfor %}
+        </select>
+        <br><br>
+        Date: <input type="date" name="date">
+    <input type="submit" name="action" value="Create">
+    </form>
+{%  endif %}
+
+{%  for workshop in workshops %}
+
+    <form method="post">
+    {%  csrf_token %}
+        <input type="text" name="id" value="{{ workshop.id }}" readonly hidden="">
+    {{ workshop }} <input type="submit" name="action" value="Delete">
+    </form>
+    <br>
+{%  endfor %}

@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+    options {
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+    }
+    stages {
+        stage('Deploy') {
+            when {
+                branch 'master'
+            }
+            steps {
+                withCredentials(
+                [string(credentialsId: 'WFD_SITE_POSTGRES_PASSWORD', variable: 'WFD_SITE_POSTGRES_PASSWORD'),
+                string(credentialsId: 'WFD_SITE_POSTGRES_USER', variable: 'WFD_SITE_POSTGRES_USER'),
+                string(credentialsId: 'WFD_SITE_POSTGRES_DB', variable: 'WFD_SITE_POSTGRES_DB')]
+                ){
+                    sh label: '', script: """bash -c \'
+                        export POSTGRES_DB="'"${WFD_SITE_POSTGRES_DB}"'";
+                        export POSTGRES_USER="'"${WFD_SITE_POSTGRES_USER}"'";
+                        export POSTGRES_PASSWORD="'"${WFD_SITE_POSTGRES_PASSWORD}"'";
+                        export ENV="PROD";
+                        ./CI/deploy.sh;
+                    \'"""
+                }
+            }
+        }
+    }
+    post {
+      always {
+          script {
+              if (fileExists('test_results/all-unit-tests.xml')){
+                  junit skipPublishingChecks: true, testResults: 'test_results/all-unit-tests.xml'
+              }
+          }
+      }
+  }
+}

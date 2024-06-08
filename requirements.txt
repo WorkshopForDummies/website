@@ -1,0 +1,6 @@
+Django
+python-dateutil==2.8.1
+pytz==2018.5
+django_cas_ng
+django-ipware
+querystring_parser
