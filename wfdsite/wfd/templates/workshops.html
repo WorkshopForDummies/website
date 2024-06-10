@@ -20,7 +20,8 @@
     <form method="post">
     {%  csrf_token %}
         <input type="text" name="id" value="{{ workshop.id }}" readonly hidden="">
-    {{ workshop }} <input type="submit" name="action" value="Delete">
+    {{ workshop }}<input type="submit" name="action" value="Delete"><br>
+    In Progress: {{ workshop.in_progress }} <input type="submit" name="action" value="Flip Status">
     </form>
     <br>
 {%  endfor %}

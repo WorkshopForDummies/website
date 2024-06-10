@@ -1,10 +1,9 @@
 {%  include 'background.html' %}
-Sign-in Links:<br>
-{% for workshop in workshops %}
-    <a href="/signin/{{ workshop.id }}">{{ workshop }}</a><br>
-{%  endfor %}
-<br>
-Participants:<br>
-{%  for attendant in attendants %}
-    {{ attendant }}
+<h1>Participants:</h1>
+{%  for workshop_name, workshop_attendance in attendance.items %}
+    <h2>{{ workshop_name }}</h2>
+    <h3>Attendants:</h3>
+    {% for attendant in workshop_attendance %}
+        {{ attendant }}
+    {%  endfor %}<br>
 {%  endfor %}

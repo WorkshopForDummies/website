@@ -204,6 +204,8 @@ class Workshop(models.Model):
 
     date = PSTDateTimeField(default=timezone.now)
 
+    in_progress = models.BooleanField(default=False)
+
     def has_feedback_form(self):
         return self.feedbackquestion_set.all().count() > 0
 

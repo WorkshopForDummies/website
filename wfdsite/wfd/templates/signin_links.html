@@ -1,0 +1,6 @@
+{%  include 'background.html' %}
+<h1>Sign-in Links:</h1>
+{% for link, workshop_name in signin_links.items %}
+    <a href="{{link}}">{{workshop_name}}</a><br>
+{%  endfor %}
+<br>

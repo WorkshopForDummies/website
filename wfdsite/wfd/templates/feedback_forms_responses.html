@@ -1,0 +1,14 @@
+{%  include 'background.html' %}
+
+<br>
+{%  for workshop_name, responses in feedback_responses.items %}
+    <h1>Workshop {{ workshop_name }}</h1>
+    {%  for response in responses %}
+        <h3>Question: {{ response.question }}</h3>
+        {% for answer in response.answers %}
+            Participant: {{ answer.attendant.sfuid }}<br>
+            Answer: {{  answer.answer }}<br>
+        {%  endfor %}
+        <br>
+    {% endfor %}
+{%  endfor %}

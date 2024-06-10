@@ -5,6 +5,12 @@ Home
 {%  endif %}
 |
 {%  if sfuid == "jsaadatm" %}
+    {%  if page == 'sign_in_links' %}
+        Sign-in Links
+    {%  else %}
+        <a href="/signins">Sign-in Links</a>
+    {%  endif %}
+    |
     {%  if page == 'participants' %}
         Participants
     {%  else %}
@@ -23,6 +29,11 @@ Home
         <a href="/feedback_forms">FeedBack Forms</a>
     {%  endif %}
     |
+    {%  if page == 'feedback_responses' %}
+        FeedBack Responses
+    {%  else %}
+        <a href="/feedback_responses">FeedBack Responses</a>
+    {%  endif %}
 {%  endif %}
 <a href="/logout">Logout</a>
-<br>
+<br><br>

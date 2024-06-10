@@ -7,7 +7,7 @@
     Feedback Form for Workshop {{ questions.0.workshop }}
 
     Questions:<br>
-    <form method="post" action="/feedback_form/answers">
+    <form method="post" action="">
         {% csrf_token %}
         {% for question_and_answer in question_and_answers %}
             {{ question_and_answer.question }}<br>
