@@ -4,3 +4,4 @@ pytz==2018.5
 django_cas_ng
 django-ipware
 querystring_parser
+psycopg2-binary
