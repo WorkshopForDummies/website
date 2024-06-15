@@ -22,7 +22,9 @@
         {%  csrf_token %}
             <input type="text" name="id" value="{{ workshop.id }}" readonly hidden="">
         In Progress: {{ workshop.in_progress }} <input type="submit" name="action" value="Flip Status"><br>
-        <input type="submit" name="action" value="Delete"><br>
+        {%  if workshop.attendant_set.all|length == 0 %}
+            <input type="submit" name="action" value="Delete"><br>
+        {%  endif %}
     {%  endif %}
     <a href="/signin/{{ workshop.id}}" target="_blank" >Sign-in Link</a>
     <a href="/feedback_form/{{ workshop.id}}" target="_blank" >Feedback Form</a>
