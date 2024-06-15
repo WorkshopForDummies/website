@@ -18,8 +18,8 @@
     </li>
     <li>Run the code at <a href="https://github.com/Rapptz/discord.py/blob/master/examples/basic_bot.py" target="_blank"> Discord.py's basic_bot.py</a> locally
         <ol>
-            <li>Add a command called <code>echo</code> that just repeats what the user said back at them</li>
-            <li>add a command called <code>pong</code> that just responds with pong when the user uses the ping command</li>
+            <li>Add a command called <code>echo</code> that just repeats what the user said back at them and can be called only by people with the role <code>admin</code></li>
+            <li>add a command called <code>pong</code> that just responds with pong when the user uses the ping command and can be called only by people with the role <code>admin</code></li>
             <li>change the commands to be <code>;</code> prefixed</li>
         </ol>
     </li>
@@ -27,6 +27,8 @@
         <ol>
             <li>Change the reminder database table so that the reminder content and author is saved to the database rather than the message and channel ID of the reminder.</li>
             <li>Make sure that the command part of the string is not shown in the reminder.</li>
+            <li>Add a listener function that sends any message to one of the channels in your discord guild when the bot is ready</li>
         </ol>
     </li>
+    <li>Go ahead and clone wall_e and start working on one of the <a href="https://github.com/CSSS/wall_e/issues?q=is%3Aissue+is%3Aopen+label%3Aworkshop">outstanding issues</a> 🙂</li>
 </ol>
