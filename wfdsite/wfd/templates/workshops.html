@@ -1,6 +1,6 @@
 {%  include 'background.html' %}
 
-{%  if sfuid == 'jsaadatm' %}
+{%  if is_admin %}
     <form method="post">
     {% csrf_token %}
         Create Workshop<br><br>
@@ -16,12 +16,19 @@
 {%  endif %}
 
 {%  for workshop in workshops %}
-
-    <form method="post">
-    {%  csrf_token %}
-        <input type="text" name="id" value="{{ workshop.id }}" readonly hidden="">
-    {{ workshop }}<input type="submit" name="action" value="Delete"><br>
-    In Progress: {{ workshop.in_progress }} <input type="submit" name="action" value="Flip Status">
+    {{ workshop }}<br>
+    {%  if is_admin %}
+        <form method="post">
+        {%  csrf_token %}
+            <input type="text" name="id" value="{{ workshop.id }}" readonly hidden="">
+        In Progress: {{ workshop.in_progress }} <input type="submit" name="action" value="Flip Status"><br>
+        <input type="submit" name="action" value="Delete"><br>
+    {%  endif %}
+    <a href="/signin/{{ workshop.id}}" target="_blank" >Sign-in Link</a>
+    <a href="/feedback_form/{{ workshop.id}}" target="_blank" >Feedback Form</a>
+    <a href="/workshop_instructions/{{ workshop.id }}" target="_blank" >Participant Instructions</a>
+    {%  if is_admin %}
     </form>
+    {%  endif %}
     <br>
 {%  endfor %}

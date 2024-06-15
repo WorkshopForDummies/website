@@ -1,15 +1,17 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 
+from wfd.controllers.can_admin import can_admin
 from wfd.controllers.context_creator import create_context
 from wfd.models import Attendant, Workshop
 
 
 class SignIn(View):
+
+    def test_func(self):
+        return can_admin(self.request.user)
+
     def get(self, request, workshop_id):
-        if request.user.is_anonymous:
-            return HttpResponseRedirect(f"/login?next={request.path}")
         workshop = Workshop.objects.all().filter(id=workshop_id).first()
         if workshop is None:
             return render(

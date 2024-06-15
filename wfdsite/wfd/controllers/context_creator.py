@@ -1,3 +1,4 @@
+from wfd.controllers.can_admin import can_admin
 from wfd.models import WORKSHOP_TYPES
 
 
@@ -6,7 +7,8 @@ def create_context(request, page, workshops=None, question_and_answers=None,
                    signin_links=None, workshop_name=None):
     context = {
         "sfuid": request.user.username,
-        "page": page
+        "page": page,
+        'is_admin': can_admin(request.user),
     }
     if workshops:
         context['workshops'] = workshops

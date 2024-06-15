@@ -146,3 +146,5 @@ AUTHENTICATION_BACKENDS = (
 CAS_SERVER_URL = "https://cas.sfu.ca/cas/"
 CAS_VERSION = '3'
 CAS_LOGIN_MSG = None
+
+LOGIN_URL = '/login'

@@ -1,22 +1,26 @@
 from django.http import HttpResponseRedirect
 from django.views import View
+
+from wfd.controllers.can_admin import can_admin
 from wfd.models import FeedBackQuestion as FeedBackQuestionModel
 
 
 class CreateFeedBackQuestion(View):
 
+    def test_func(self):
+        return can_admin(self.request.user)
+
     def post(self, request, workshop_id):
-        if request.user.is_anonymous:
-            return HttpResponseRedirect(f"/login?next={request.path}")
         FeedBackQuestionModel(question=request.POST.get("question"),workshop_id=workshop_id).save()
         return HttpResponseRedirect("/feedback_forms")
 
 
 class UpdateOrDeleteFeedBackQuestion(View):
 
+    def test_func(self):
+        return can_admin(self.request.user)
+
     def post(self, request, question_id):
-        if request.user.is_anonymous:
-            return HttpResponseRedirect(f"/login?next={request.path}")
         action = request.POST.get("action")
         question = FeedBackQuestionModel.objects.all().filter(id=question_id).first()
         if question is not None:

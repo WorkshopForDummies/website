@@ -1,16 +1,18 @@
-from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import render
 from django.views import View
 
+from wfd.controllers.can_admin import can_admin
 from wfd.controllers.context_creator import create_context
 from wfd.models import Attendant, Workshop
 
 
-class Participants(View):
+class Participants(UserPassesTestMixin, View):
+
+    def test_func(self):
+        return can_admin(self.request.user)
 
     def get(self, request):
-        if request.user.is_anonymous:
-            return HttpResponseRedirect(f"/login?next={request.path}")
         attendants = Attendant.objects.all().order_by('-workshop__date')
         attendance = {}
         for attendant in attendants:

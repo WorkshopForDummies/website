@@ -1,18 +1,19 @@
-from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import render
 from django.views import View
+from querystring_parser import parser
 
+from wfd.controllers.can_admin import can_admin
 from wfd.controllers.context_creator import create_context
 from wfd.models import Workshop, FeedBackQuestion, FeedbackAnswer, Attendant
 
-from querystring_parser import parser
 
+class ShowFeedBackForms(UserPassesTestMixin, View):
 
-class ShowFeedBackForms(View):
+    def test_func(self):
+        return can_admin(self.request.user)
 
     def get(self, request):
-        if request.user.is_anonymous:
-            return HttpResponseRedirect(f"/login?next={request.path}")
         return render(
             request, 'feedback_forms.html',
             create_context(request, "feedback_forms", workshops=Workshop.objects.all().order_by('-date'))
@@ -22,8 +23,6 @@ class ShowFeedBackForms(View):
 class ParticipantFeedBackFormView(View):
 
     def get(self, request, workshop_id):
-        if request.user.is_anonymous:
-            return HttpResponseRedirect(f"/login?next={request.path}")
         user_attended_workshop = Attendant.objects.all().filter(
             sfuid=request.user.username,
             workshop_id=workshop_id
@@ -48,8 +47,6 @@ class ParticipantFeedBackFormView(View):
         )
 
     def post(self, request, workshop_id):
-        if request.user.is_anonymous:
-            return HttpResponseRedirect(f"/login?next={request.path}")
         post_dict = parser.parse(request.POST.urlencode())
         user_answers = {
             answer.question.id: answer
@@ -75,10 +72,11 @@ class ParticipantFeedBackFormView(View):
         return self.get(request, workshop_id)
 
 
-class ListFeedBackResponses(View):
+class ListFeedBackResponses(UserPassesTestMixin, View):
+    def test_func(self):
+        return can_admin(self.request.user)
+
     def get(self, request):
-        if request.user.is_anonymous:
-            return HttpResponseRedirect(f"/login?next={request.path}")
         feedback_form_questions = FeedBackQuestion.objects.all().order_by('workshop')
         questions = {}
         for feedback_form_question in feedback_form_questions:
